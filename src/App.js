@@ -14,8 +14,8 @@ class App extends Component {
       <Router>
         <div>
           <Navbar/>
-          <Route path="/" component={Home}/>
-          <Route path="/jokes/:category" component={Jokes}/>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/jokes/:category" component={Jokes}/>
         </div>
       </Router>
       </MuiThemeProvider>
