@@ -1,0 +1,21 @@
+.joke{
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 100px;
+}
+.joke-text{
+    font-size: 1.5em;
+    width: 80%;
+    margin-top: 20px;
+    color: gray;
+    font-style: italic;
+}
+.quote-icon{
+    width: 5%;
+    font-size: 2em;
+    margin-left: 5%;
+}
+.joke-text-wrapper{
+    display: flex;
+    justify-content: flex-start;
+}
