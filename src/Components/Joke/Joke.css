@@ -1,8 +1,12 @@
+.joke:first-child{
+    margin-top:100px;
+}
 .joke{
     width: 70%;
     margin-left: 15%;
-    margin-top: 100px;
+    margin-bottom: 50px;
 }
+
 .joke-text{
     font-size: 1.5em;
     width: 80%;
@@ -18,4 +22,12 @@
 .joke-text-wrapper{
     display: flex;
     justify-content: flex-start;
+}
+.posted-at{
+    float: right;
+    top:10px;
+    right: 10px;
+    position: absolute;
+    color:gray; 
+    font: 'Roboto';
 }

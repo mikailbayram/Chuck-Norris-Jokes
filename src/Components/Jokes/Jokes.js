@@ -3,36 +3,40 @@ import "./Jokes.css"
 import Joke from '../Joke/Joke';
 import CircularProgress from 'material-ui/CircularProgress';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { addJoke } from '../../reducers/jokesReducer';
+
 class Jokes extends Component {
   constructor(props){
     super(props);
     this.state={
       path:"",
-      joke:{},
       icon:"",
-      loading:true
+      loading:true,
+      jokes:[]
     }
   }
   componentWillMount(){
     let pathName=this.props.match.params.category;
     this.setState({path:pathName},()=>{
-      this.getQuote()
-      this.setIcon()})
+      this.props.addJoke(this.state.path);
+      this.setIcon()
+    })
   }
   componentWillReceiveProps(newProps){
-    if(this.props.match.params.category!=newProps.match.params.category){
+    if(this.props.match.params.category!==newProps.match.params.category){
       let pathName=newProps.match.params.category;
-      this.setState({path:pathName,loading:true},()=>{
-        this.getQuote();
+      this.setState({path:pathName},()=>{
+        this.props.addJoke(this.state.path);
         this.setIcon()})
     }
-      
+    if(this.props.jokes!==newProps.jokes){
+      let pathName=newProps.match.params.category;
+      this.setState({jokes:newProps.jokes[pathName]})
+    }
   }
-  getQuote(){
-    fetch("https://api.chucknorris.io/jokes/random?category="+this.state.path)
-    .then(res=>res.json())
-    .then(res=>this.setState({joke:res,loading:false}))
-  }
+
   setIcon(){
     let icon ="";
     switch(this.state.path){
@@ -76,12 +80,29 @@ class Jokes extends Component {
   render() {
     return (
       <div>
-        {this.state.loading?
+        {!this.props.loaded?
         <CircularProgress className="loader" size={200} thickness={5} />:
-        <Joke joke={this.state.joke} path={this.state.path} icon={this.state.icon}/>}
+        <div className="jokes">
+        {this.state.jokes.reverse().map((joke)=>{
+        return(
+          <Joke joke={joke} path={this.state.path} icon={this.state.icon}/>
+        )})}
+        </div>}
       </div>
     );
   }
 }
+const mapStateToProps = state => {
+  return { jokes: state.jokes.jokes, loading:state.jokes.fetching, loaded:state.jokes.fetched };
+};
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      addJoke: addJoke
+    },
+    dispatch
+  );
+};
 
-export default Jokes;
+
+export default connect(mapStateToProps,mapDispatchToProps)(Jokes);
