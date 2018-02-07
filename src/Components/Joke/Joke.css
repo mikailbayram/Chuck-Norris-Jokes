@@ -2,11 +2,40 @@
     margin-top:100px;
 }
 .joke{
+    width: 50%;
+    margin-left: 25%;
+    margin-bottom: 50px;
+    opacity: 0.5;
+    -webkit-transition: width 1s,margin-left 1s !important;
+    transition: width 1s,margin-left 1s !important;
+    -webkit-animation: slide-up-fade-in ease 1s;
+    animation: slide-up-fade-in ease 1s;
+}
+.joke:hover{
+    opacity: 1;
     width: 70%;
     margin-left: 15%;
-    margin-bottom: 50px;
 }
-
+@keyframes slide-up-fade-in{
+    0% {
+        opacity:0;
+        transform:  translate(0px,40px)  ;
+    }
+    100% {
+        opacity:0.5;
+        transform:  translate(0px,0px)  ;
+    }
+}
+@-webkit-keyframes slide-up-fade-in{
+    0% {
+        opacity:0;
+        transform:  translate(0px,40px)  ;
+    }
+    100% {
+        opacity:0.5;
+        transform:  translate(0px,0px)  ;
+    }
+}
 .joke-text{
     font-size: 1.5em;
     width: 80%;
