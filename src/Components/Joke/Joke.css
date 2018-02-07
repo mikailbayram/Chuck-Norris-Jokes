@@ -1,20 +1,30 @@
 .joke:first-child{
     margin-top:100px;
+    width: 70%;
+    margin-left: 15%;
+    opacity: 1;
+    -webkit-animation: slide-up-fade-in-first ease 1s;
+    animation: slide-up-fade-in-first ease 1s;
+}
+@keyframes slide-up-fade-in-first{
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
 }
 .joke{
     width: 50%;
     margin-left: 25%;
     margin-bottom: 50px;
     opacity: 0.5;
-    -webkit-transition: width 1s,margin-left 1s !important;
-    transition: width 1s,margin-left 1s !important;
     -webkit-animation: slide-up-fade-in ease 1s;
     animation: slide-up-fade-in ease 1s;
 }
-.joke:hover{
+.joke:not(:first-child):hover{
+    transform: scaleX(1.2);
     opacity: 1;
-    width: 70%;
-    margin-left: 15%;
 }
 @keyframes slide-up-fade-in{
     0% {
