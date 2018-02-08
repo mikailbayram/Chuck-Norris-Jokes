@@ -78,14 +78,18 @@ class Jokes extends Component {
     this.setState({icon});
   }
   render() {
+    const headerStyle={
+      textAlign:"center"
+    }
     return (
       <div>
         {!this.props.loaded?
         <CircularProgress className="loader" size={200} thickness={5} />:
         <div className="jokes">
-        {this.state.jokes.reverse().map((joke)=>{
+        {this.props.error&&<h3 style={headerStyle}>There has been an error, no new jokes added</h3>}
+        {this.state.jokes.reverse().map((joke,i)=>{
         return(
-          <Joke joke={joke} path={this.state.path} icon={this.state.icon}/>
+          <Joke joke={joke} path={this.state.path} icon={this.state.icon} key={i}/>
         )})}
         </div>}
       </div>
@@ -93,7 +97,7 @@ class Jokes extends Component {
   }
 }
 const mapStateToProps = state => {
-  return { jokes: state.jokes.jokes, loading:state.jokes.fetching, loaded:state.jokes.fetched };
+  return { jokes: state.jokes.jokes, error:state.jokes.error, loaded:state.jokes.fetched };
 };
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
