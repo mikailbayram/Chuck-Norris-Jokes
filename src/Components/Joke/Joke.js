@@ -19,14 +19,18 @@ class Joke extends Component {
             <Card className="joke" onClick={()=>this.setState({open:true})}>
                 <CardHeader
                 title="Juck Norris"
-                subtitle={this.props.path?this.props.path:"Random"}
+                subtitle={!this.props.isHome?this.props.joke.category[0]:"Random"}
                 avatar={this.props.icon}
                 children={<div className="posted-at">
                     {this.props.joke.posted}
+                    <br/>
+                    {!this.props.isHome&&<span>Times Repeated: {this.props.joke.times_repeated}</span>}
                 </div>}
                 />
                 <CardText className="joke-text-wrapper">
-                    <MdFormatQuote className="quote-icon"/><div className="joke-text">{this.props.joke.value}</div>
+                    <MdFormatQuote className="quote-icon"/>
+                    {this.props.text?<div className="joke-text" dangerouslySetInnerHTML={{__html: this.props.text}}/>
+                    :<div className="joke-text">{this.props.joke.value}</div>}
                     {this.state.open&&<Modal close={()=>this.close()}
                     icon={this.props.icon} 
                     open={this.state.open} 

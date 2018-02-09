@@ -1,0 +1,10 @@
+.search{
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.searchResult{
+    color:darkgreen;
+    background-color: green;
+}

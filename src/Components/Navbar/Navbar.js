@@ -14,7 +14,7 @@ class Navbar extends Component {
             onChange={this.handleCallToRouter}
         >
           <Tab label="Home" value="/"/>
-          <Tab label="Explicit" value="/jokes/explicit"/>
+          <Tab label="Search" value="/search"/>
           <Tab label="Dev" value="/jokes/dev"/>
           <Tab label="Movie" value="/jokes/movie"/>
           <Tab label="Food" value="/jokes/food"/>

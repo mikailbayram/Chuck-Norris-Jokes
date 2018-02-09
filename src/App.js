@@ -11,7 +11,7 @@ import * as localforage from "localforage";
 import Home from './Components/Home/Home';
 import Jokes from './Components/Jokes/Jokes';
 import Navbar from './Components/Navbar/Navbar';
-
+import Search from './Components/Search/Search';
 
 class App extends Component {
   componentWillMount(){
@@ -27,6 +27,7 @@ class App extends Component {
           <Navbar/>
           <Route exact path="/" component={Home}/>
           <Route exact path="/jokes/:category" component={Jokes}/>
+          <Route exact path="/search" component={Search}/>
         </div>
       </Router>
       </MuiThemeProvider>

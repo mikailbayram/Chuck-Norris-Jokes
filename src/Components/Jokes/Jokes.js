@@ -89,7 +89,7 @@ class Jokes extends Component {
         {this.props.error&&<h3 style={headerStyle}>There has been an error, no new jokes added</h3>}
         {this.state.jokes.reverse().map((joke,i)=>{
         return(
-          <Joke joke={joke} path={this.state.path} icon={this.state.icon} key={i}/>
+          <Joke joke={joke} icon={this.state.icon} key={i}/>
         )})}
         </div>}
       </div>

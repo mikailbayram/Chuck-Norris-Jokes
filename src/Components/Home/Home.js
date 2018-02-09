@@ -15,7 +15,10 @@ class Home extends Component {
   componentDidMount(){
       fetch("https://api.chucknorris.io/jokes/random")
       .then(res=>res.json())
-      .then(res=>this.setState({joke:res,loading:false}))
+      .then(res=>{
+        res.categ
+        this.setState({joke:res,loading:false})
+      })
   }
   render() {
     return (
@@ -24,7 +27,7 @@ class Home extends Component {
         <CircularProgress className="loader" size={200} thickness={5} />:
         <div>
           <img src="https://assets.chucknorris.host/img/chucknorris_logo_coloured_small@2x.png" alt="Chuck Norris" className="chuck-image"/>
-          <Joke joke={this.state.joke} icon="https://assets.chucknorris.host/img/avatar/chuck-norris.png"/>
+          <Joke joke={this.state.joke} isHome={true} icon="https://assets.chucknorris.host/img/avatar/chuck-norris.png"/>
         </div>}
       </div>
     );
