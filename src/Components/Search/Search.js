@@ -38,11 +38,13 @@ class Search extends Component {
       const allJokes=[...this.state.allJokes];
       const searchResults = [];
       const foundStrings=[];
+      let j = 0;
       for(let i =0;i<allJokes.length;i++){
           let found = allJokes[i].value.match(regEx);  
           if(found&&this.state.searchValue.length>0){
             searchResults.push(allJokes[i]);
-            foundStrings.push(searchResults[i].value.substring(found.index,found.index+this.state.searchValue.length));
+            foundStrings.push(searchResults[j].value.substring(found.index,found.index+this.state.searchValue.length));
+            j++;
         } 
       }
       const editedText=[];
@@ -52,7 +54,7 @@ class Search extends Component {
       this.setState({searchResults:searchResults,gotresults:true,editedText:editedText})
   }
   getAllJokes(){
-      const jokes = this.props.jokes;
+      const jokes = this.props.jokes.toJS();
       const categories = Object.keys(jokes);
       console.log(jokes);
       const arr = [];
@@ -91,7 +93,7 @@ class Search extends Component {
 }
 
 const mapStateToProps = state => {
-    return { jokes: state.jokes.jokes };
+    return { jokes: state.jokes.get("jokes") };
   };
 
 const mapDispatchToProps = dispatch => {
