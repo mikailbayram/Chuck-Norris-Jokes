@@ -33,16 +33,21 @@ export default function jokes(state = initialState, action) {
     case "ADD_JOKE_FULFILLED":
           const category =action.payload.category[0];
           const posted = generateDate();
-          const times_repeated = timesRepeated([...state.getIn(["jokes",category])],action.payload.id);
-          const data = {...action.payload, posted:posted,times_repeated:times_repeated}
-          state.getIn(["jokes",category]).map((joke,i)=>{
-            if(joke.id==action.payload.id)
-              joke.times_repeated=times_repeated;
+          const times_repeated = timesRepeated(state.getIn(["jokes",category]),action.payload.id);
+          const data = {...action.payload, posted:posted,times_repeated:times_repeated};
+          addJokeToStore(data,category,times_repeated);
+          const updated = state.getIn(["jokes",category]).map((item)=> {
+            if(item.get("id") === action.payload.id) {
+              return item.set("times_repeated", times_repeated);
+            } else {
+              return item;
+            }
           })
           return state
+          .setIn(["jokes",category],updated)
           .set("fetching",false)
           .set("fetched",true)
-          .updateIn(["jokes",category],arr=>arr.push(data));
+          .updateIn(["jokes",category],arr=>arr.push(fromJS(data)))
           
     case "ADD_JOKE_REJECTED":
            return{
@@ -68,7 +73,6 @@ export function addJoke(category) {
       payload: fetch("https://api.chucknorris.io/jokes/random?category="+category)
       .then(res=>res.json())
       .then(res=>{
-        addJokeToStore(res,category);
         return res
       })
     };
@@ -80,12 +84,14 @@ export function addJoke(category) {
     }
   }
 
-function addJokeToStore(joke,category){
+function addJokeToStore(joke,category,times_repeated){
   localforage.getItem("jokes").then((jokes)=>{
-    const posted = generateDate();
-    const times_repeated = timesRepeated(jokes[category]);
-    const data = {...joke,posted,times_repeated:times_repeated}
-    localforage.setItem("jokes",{...jokes,[category]:[...jokes[category],data]})
+    const arr = [...jokes[category]];
+    for(let i = 0; i<arr.length;i++){
+      if(arr[i].id===joke.id)
+        arr[i].times_repeated = times_repeated;
+    }
+    localforage.setItem("jokes",{...jokes,[category]:[...jokes[category],joke]})
   })
   .catch(()=>{
     localforage.setItem("jokes",initialState.get("jokes").toJS());
@@ -93,10 +99,9 @@ function addJokeToStore(joke,category){
 }
 
 function timesRepeated(jokes,id){
-  const arr = [...jokes];
   let  timesRepeated = 1;
-  for(let i = 0 ; i<arr.length; i++){
-    if(arr[i].id===id){
+  for(let i = 0 ; i<jokes.count(); i++){
+    if(jokes.get(i).get("id")===id){
       timesRepeated++;
     }
 }

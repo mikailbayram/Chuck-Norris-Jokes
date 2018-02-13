@@ -83,9 +83,9 @@ class Jokes extends Component {
         <CircularProgress className="loader" size={200} thickness={5} />:
         <div className="jokes">
         {this.props.error&&<h3 style={headerStyle}>There has been an error, no new jokes added</h3>}
-        {this.props.jokes.toJS().reverse().map((joke,i)=>{
+        {this.props.jokes.map((joke,i)=>{
         return(
-          <Joke joke={joke} icon={this.state.icon} key={i}/>
+          <Joke joke={this.props.jokes.get(i)} icon={this.state.icon} key={i}/>
         )})}
         </div>}
       </div>
@@ -93,7 +93,7 @@ class Jokes extends Component {
   }
 }
 const mapStateToProps = (state,ownProps) => {
-  return { jokes: state.jokes.getIn(['jokes',ownProps.match.params.category]), error:state.jokes.get('error'), loaded:state.jokes.get('fetched') };
+  return { jokes: state.jokes.getIn(['jokes',ownProps.match.params.category]).reverse(), error:state.jokes.get('error'), loaded:state.jokes.get('fetched') };
 };
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(

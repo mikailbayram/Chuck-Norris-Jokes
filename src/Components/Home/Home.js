@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Joke from '../Joke/Joke';
 import "./Home.css"
 import CircularProgress from 'material-ui/CircularProgress';
-
+import {fromJS} from 'immutable';
 
 class Home extends Component {
     constructor(props){
@@ -16,8 +16,7 @@ class Home extends Component {
       fetch("https://api.chucknorris.io/jokes/random")
       .then(res=>res.json())
       .then(res=>{
-        res.categ
-        this.setState({joke:res,loading:false})
+        this.setState({joke:fromJS(res),loading:false})
       })
   }
   render() {
