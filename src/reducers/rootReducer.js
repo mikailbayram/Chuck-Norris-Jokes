@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import jokes from './jokesReducer';
 
 const rootReducer = combineReducers({
-  jokes
+  jokes,
 });
 
 export default rootReducer;

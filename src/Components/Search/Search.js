@@ -4,6 +4,7 @@ import Joke from '../Joke/Joke'
 import "./Search.css"
 import * as localforage from "localforage";
 import CircularProgress from 'material-ui/CircularProgress';
+import {fromJS} from 'immutable';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -15,7 +16,6 @@ class Search extends Component {
       super(props);
       this.state = {
           allJokes:[],
-          lastTyped:1000,
           searchValue:"",
           searchResults:[],
           editedText:[],
@@ -51,12 +51,11 @@ class Search extends Component {
       for(let i = 0; i<searchResults.length;i++){
         editedText.push(searchResults[i].value.replace(regEx,"<span class='searchResult'>"+foundStrings[i]+"</span>"));
       }
-      this.setState({searchResults:searchResults,gotresults:true,editedText:editedText})
+      this.setState({searchResults:fromJS(searchResults),gotresults:true,editedText:editedText})
   }
   getAllJokes(){
       const jokes = this.props.jokes.toJS();
       const categories = Object.keys(jokes);
-      console.log(jokes);
       const arr = [];
       for(let i = 0;i<categories.length;i++){
           for(let j = 0;j<jokes[categories[i]].length;j++){
@@ -70,11 +69,9 @@ class Search extends Component {
     return (
         <div>
             <div className="search">
-            <TextField fullWidth={true} hintText="Search through jokes" onChange={(e)=>{this.setState({searchValue: e.target.value, lastTyped: Date.now(), gotresults: false})
+            <TextField fullWidth={true} hintText="Search through jokes" onChange={(e)=>{this.setState({searchValue: e.target.value, gotresults: false})
                          setTimeout(() => {
-                           if (Date.now() - this.state.lastTyped > 500) {
                              this.searchJokes();
-                           }
                         }, 500)
                         }}/>
             </div>

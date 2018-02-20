@@ -21,7 +21,9 @@ const initialState =  Map({
       }),
       fetching:false,
       fetched:false,
-      error:false
+      error:false,
+      isFirst:false,
+      synced: false
 });
 
 export default function jokes(state = initialState, action) {
@@ -30,6 +32,7 @@ export default function jokes(state = initialState, action) {
         return state
         .set("fetching",true)
         .set("fetched",false)
+        .set("isFirst",false)
     case "ADD_JOKE_FULFILLED":
           const category =action.payload.category[0];
           const posted = generateDate();
@@ -47,20 +50,58 @@ export default function jokes(state = initialState, action) {
           .setIn(["jokes",category],updated)
           .set("fetching",false)
           .set("fetched",true)
+          .set("isFirst",times_repeated===1?true:false)
           .updateIn(["jokes",category],arr=>arr.push(fromJS(data)))
           
     case "ADD_JOKE_REJECTED":
-           return{
-             ...state,
-             fetching:false,
-             fetched:true,
-             error:true
-           }
+           return state
+           .set("fetching",false)
+           .set("fetched",true)
+           .set("error",true)
     case "GET_JOKES":
            if(action.payload){
             return state.set("jokes",fromJS(action.payload))}
 
            return state;
+    case "GET_ALL_JOKES":
+            const categories= state.get("jokes").keySeq().toList();
+            const result = {
+              dev:[],
+              movie:[],
+              food:[],
+              celebrity:[],
+              science:[],
+              sport:[],
+              political:[],
+              religion:[],
+              animal:[],
+              history:[],
+              music:[],
+              travel:[],
+              career:[],  
+              money:[],
+              fashion:[]};
+            for(let i = 0; i<categories.count();i++){
+              for(let j = 0; j<action.payload[categories.get(i)].length;j++){
+                let found = false;
+                for(let k = 0; k<state.getIn(["jokes",categories.get(i)]).count();k++){
+                  if(action.payload[categories.get(i)][j].id===state.getIn(["jokes",categories.get(i),k,"id"])){
+                    found = true;
+                    break;
+                  }
+                }
+                if(!found){
+                  result[categories.get(i)].push(action.payload[categories.get(i)][j]);
+                }
+              }
+            }
+
+            const update = state.get("jokes").map((category,i)=>{
+              return category.concat(fromJS(result[i]));
+            })
+            
+            return state.set("synced",true)
+            .set("jokes",update);
     default:
       return state;
   }
@@ -80,6 +121,13 @@ export function addJoke(category) {
   export function getJokesFromStore(jokes){
     return{
       type: "GET_JOKES",
+      payload:jokes
+    }
+  }
+
+  export function getAllJokes(jokes){
+    return {
+      type: "GET_ALL_JOKES",
       payload:jokes
     }
   }

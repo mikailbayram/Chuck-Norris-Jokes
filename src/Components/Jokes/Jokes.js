@@ -21,7 +21,7 @@ class Jokes extends Component {
     let pathName=this.props.match.params.category;
     this.setState({path:pathName},()=>{
       this.props.addJoke(this.state.path);
-      this.setIcon()
+      this.setIcon();
     })
   }
   componentWillReceiveProps(newProps){
@@ -29,10 +29,10 @@ class Jokes extends Component {
       let pathName=newProps.match.params.category;
       this.setState({path:pathName},()=>{
         this.props.addJoke(this.state.path);
-        this.setIcon()})
+        this.setIcon();
+      })
     }
   }
-
   setIcon(){
     let icon ="";
     switch(this.state.path){
@@ -93,7 +93,10 @@ class Jokes extends Component {
   }
 }
 const mapStateToProps = (state,ownProps) => {
-  return { jokes: state.jokes.getIn(['jokes',ownProps.match.params.category]).reverse(), error:state.jokes.get('error'), loaded:state.jokes.get('fetched') };
+  return { jokes: state.jokes.getIn(['jokes',ownProps.match.params.category]).reverse(), 
+  error:state.jokes.get('error'), 
+  loaded:state.jokes.get('fetched'),
+  isFirst:state.jokes.get("isFirst") };
 };
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(

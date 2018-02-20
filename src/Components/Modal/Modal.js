@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import MdFormatQuote from "react-icons/lib/md/format-quote";
 import "./Modal.css";
 
