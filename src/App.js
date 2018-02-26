@@ -13,7 +13,7 @@ import Jokes from './Components/Jokes/Jokes';
 import Navbar from './Components/Navbar/Navbar';
 import Search from './Components/Search/Search';
 
-class App extends Component {
+export class App extends Component {
   componentWillMount(){
     localforage.getItem("jokes").then((jokes)=>{
       this.props.getJokes(jokes);

@@ -10,7 +10,7 @@ class Modal extends Component {
         <Dialog
             modal={false}
             open={this.props.open}
-            onRequestClose={()=>this.props.close()}
+            onRequestClose={this.props.close}
             className="modal"
         >       
                 <Card>

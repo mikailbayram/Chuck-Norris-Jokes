@@ -95,7 +95,6 @@ export default function jokes(state = initialState, action) {
                 }
               }
             }
-
             const update = state.get("jokes").map((category,i)=>{
               return category.concat(fromJS(result[i]));
             })
@@ -106,7 +105,6 @@ export default function jokes(state = initialState, action) {
       return state;
   }
 }
-
 
 export function addJoke(category) {
     return {

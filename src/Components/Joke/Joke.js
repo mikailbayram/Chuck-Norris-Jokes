@@ -8,8 +8,9 @@ class Joke extends Component {
   constructor(props){
       super(props);
       this.state = {
-          open:false
+          open:false,
       }
+      this.close=this.close.bind(this);
   }
   close(){
       this.setState({open:false})
@@ -31,7 +32,7 @@ class Joke extends Component {
                     <MdFormatQuote className="quote-icon"/>
                     {this.props.text?<div className="joke-text" dangerouslySetInnerHTML={{__html: this.props.text}}/>
                     :<div className="joke-text">{this.props.joke.get("value")}</div>}
-                    {this.state.open&&<Modal close={()=>this.close()}
+                    {this.state.open&&<Modal close={this.close}
                     icon={this.props.icon} 
                     open={this.state.open} 
                     joke={this.props.joke}

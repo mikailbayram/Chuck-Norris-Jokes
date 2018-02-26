@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { addJoke } from '../../reducers/jokesReducer';
 
-class Jokes extends Component {
+export class Jokes extends Component {
   constructor(props){
     super(props);
     this.state={
