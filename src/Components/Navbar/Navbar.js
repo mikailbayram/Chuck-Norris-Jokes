@@ -3,11 +3,12 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import { withRouter } from "react-router-dom";
 import "./Navbar.css"
 
-class Navbar extends Component {
+export class Navbar extends Component {
     handleCallToRouter = (value) => {
         this.props.history.push(value);
     }
   render() {
+    console.log(this.props.history);
     return (
         <Tabs
             value={this.props.history.location.pathname}

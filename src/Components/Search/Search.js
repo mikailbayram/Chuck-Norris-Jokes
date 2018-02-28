@@ -9,9 +9,9 @@ import {fromJS} from 'immutable';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getJokesFromStore} from '../../reducers/jokesReducer'
+import debounce from 'debounce';
 
-
-class Search extends Component {
+export class Search extends Component {
   constructor(props){
       super(props);
       this.state = {
@@ -33,7 +33,7 @@ class Search extends Component {
       })
   }
   
-  searchJokes(){
+  searchJokes = debounce(()=>{
       let regEx = new RegExp(this.state.searchValue, 'i');
       const allJokes=[...this.state.allJokes];
       const searchResults = [];
@@ -52,7 +52,8 @@ class Search extends Component {
         editedText.push(searchResults[i].value.replace(regEx,"<span class='searchResult'>"+foundStrings[i]+"</span>"));
       }
       this.setState({searchResults:fromJS(searchResults),gotresults:true,editedText:editedText})
-  }
+  },500);
+  
   getAllJokes(){
       const jokes = this.props.jokes.toJS();
       const categories = Object.keys(jokes);
@@ -70,9 +71,7 @@ class Search extends Component {
         <div>
             <div className="search">
             <TextField fullWidth={true} hintText="Search through jokes" onChange={(e)=>{this.setState({searchValue: e.target.value, gotresults: false})
-                         setTimeout(() => {
-                             this.searchJokes();
-                        }, 500)
+                         this.searchJokes();
                         }}/>
             </div>
             {!this.state.gotresults&&this.state.searchValue.length>0?

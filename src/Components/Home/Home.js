@@ -8,7 +8,7 @@ import getJokes from '../../getJokes';
 import {connect} from 'react-redux';
 
 
-class Home extends Component {
+export class Home extends Component {
     constructor(props){
         super(props);
         this.state={
